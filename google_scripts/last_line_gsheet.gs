@@ -24,5 +24,3 @@ function getData()
   // devuelvo el valor de la ultima fila
   return values.flat();
 }
-
-/** https://script.google.com/macros/s/AKfycbxeFi-8mfDK_DTTfrwUE3MwUt4CtxulHgA3EUie1WL_cz76lhY0MsEiCE9DCVVzYbNG/exec */
