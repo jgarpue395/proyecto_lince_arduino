@@ -14,30 +14,22 @@
 void setup()
 {
   SerialUSB.begin(115200);
-  //while (!SerialUSB)
-  {
-      ; // wait for Arduino serial Monitor port to connect
-  }
-
-  delay(100);
-
   Serial1.begin(115200);
-
-  //Serial1.begin(UART_BAUD, SERIAL_8N1, MODEM_RXD, MODEM_TXD);
 
   pinMode(LTE_RESET_PIN, OUTPUT);
   digitalWrite(LTE_RESET_PIN, LOW);
 
   pinMode(LTE_PWRKEY_PIN, OUTPUT);
   digitalWrite(LTE_RESET_PIN, LOW);
-  delay(100);
   digitalWrite(LTE_PWRKEY_PIN, HIGH);
+
   delay(2000);
+  
   digitalWrite(LTE_PWRKEY_PIN, LOW);
 
   pinMode(LTE_FLIGHT_PIN, OUTPUT);
   digitalWrite(LTE_FLIGHT_PIN, LOW); //Normal Mode
-  // digitalWrite(LTE_FLIGHT_PIN, HIGH);//Flight Mode
+  delay(10000);
 
   SerialUSB.println("Maduino Zero 4G Test Start!");
 
