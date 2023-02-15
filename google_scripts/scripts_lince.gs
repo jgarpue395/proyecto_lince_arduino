@@ -1,19 +1,27 @@
 // abro la hoja de calculo, a traves del metodo openByUrl, pasandole como parametro la url de la hoja de calculo
 const sheet = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1VfWjrDH09sLQeiZVHfeS2yjjuTQMvLqADJIsz4DTVrE/edit#gid=0");
+const longitudCircuito = 1.600; //longitud media NOGARO 2022       //longitud del CIRCUITO en Kmetros
+const longitudRueda = 0.001534; //longitud de la rueda en KM
+const rueda = 3.6 * longitudRueda * 1000000 * 1000;
 
 // funcion doPost, se realiza al hacer una petcion post
 function doPost(request) 
 {
-  // llama al metodo setData
-  setData(request.parameter.velocidadInstantanea, request.parameter.velocidadMedia, request.parameter.tiempoCarrera, request.parameter.numVueltas, 
-  request.parameter.coordenadas);
+  // llama al metodo setDataInSheet
+  setDataInSheet(request.parameter.vueltasRueda,request.parameter.tiempoInicio,request.parameter.tiempoActual, request.parameter.tiempoVuelta, request.parameter.coordenadas);
 }
 
 // funcion setData, guada los valores en la hoja de calculo guardada en la constante sheet
-function setData(velocidadInstantanea, velocidadMedia, tiempoCarrera, numVueltas, coordenadas) 
+function setDataInSheet(vueltasRueda, tiempoInicio, tiempoActual, tiempoVuelta, coordenadas) 
 {
   // indica con que hoja del libro se va a trabajar
   hoja = sheet.getSheetByName("Hoja 1");
+  
+  tiempoCarrera = (tiempoActual - tiempoInicio) / 1000000.0;  // Calculamos el tiempo total transcurrido en SEGUNDOS
+  distancia = vueltasRueda * longitudRueda;                   // Calculamos la distancia total recorrida por el coche
+  velocidadInstantanea = rueda / tiempoVuelta;                // Calculamos la velocidad instantanea
+  velocidadMedia = distancia / (tiempoCarrera / 3600);        // Calculamos la velocidad media
+  numVueltas = distancia / longitudCircuito + 1               // Calculamos la vuelta por la que vamos
 
   if (coordenadas != "NoDisponible")
   {
@@ -52,3 +60,5 @@ function parseCoordenadas(coordenadas) {
     longitud
   };
 }
+
+//https://script.google.com/macros/s/AKfycbz2DSsZI_gYLi7DgouYCu-PTHHv2J1HV8gp-1dApNCzrPDFvK_1DNFmdg8vp12kkcLDWQ/exec?

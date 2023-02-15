@@ -59,12 +59,12 @@ void setup()
 
   //guardo el tiempo en microsegundos
   t0 = micros();
-  t = micros();
+  t = t0;
 
   SerialUSB.println("Maduino Zero 4G Test Start!");
   
   // inicializo el modulo de gps de la placa
-  sendData("AT+CGPS=1", 1000, false);
+  sendData("AT+CGPS=1", 1000, DEBUG);
 
   // inicializo el servicio HTTP
   sendData("AT+HTTPINIT", 1000, DEBUG);
@@ -81,18 +81,13 @@ void loop()
     }
   }
 
-  n++;                                                          // Incrementamos número de vueltas de la rueda
-  unsigned long tiempoVuelta = micros() - t;                    // Calculamos tiempo empleado en la última vuelta de la rueda (en microsegundos)
-  t = micros();                                                 // Guardamos en t, el valor de microsegundos actual
-  float distancia = n * long_rueda;                             // Calculamos la distancia total recorrida por el coche
-
-  float tiempoCarrera = (t - t0) / 1000000.0;                   // Calculamos el tiempo total transcurrido en SEGUNDOS
-  float velocidadIntantanea = rueda / tiempoVuelta;             // Calculamos la velocidad instantanea
-  float velocidadMedia = distancia / (tiempoCarrera / 3600);    // Calculamos la velocidad media
-  float numVueltas = distancia / longitudCircuito + 1;          // Calculamos la vuelta por la que vamos
-
+  n++;                                        // Incrementamos número de vueltas de la rueda
+  long nuevoTiempoVuelta = micros();          
+  long tiempoVuelta = nuevoTiempoVuelta - t;  // Calculamos tiempo empleado en la última vuelta de la rueda (en microsegundos)
+  t = nuevoTiempoVuelta;                      // Guardamos en t, el valor de microsegundos actual
+  
   // Lanzamos el comando que nos devuelve las coordenadas
-  String coordenadas = sendData("AT+CGPSINFO",1000, DEBUG);
+  String coordenadas = sendData("AT+CGPSINFO", 1000, DEBUG);
   // Variable utilizada para almacenar la parte que nos sirve del comando anterior
   String coordenadasUrl = "NoDisponible";
 
@@ -128,14 +123,14 @@ void loop()
     coordenadasUrl = coordenadasString;
   }
 
-  String url = "https://script.google.com/macros/s/AKfycbyJ32Qpile501OtKuFFEvrvTIcDUM-y2S7a3MxSwUgpisN0zzsU5ymMcVUOJbbJInzBFQ/exec?";
+  String url = "https://script.google.com/macros/s/AKfycbwLapehMP7RG2rnQ7eBS8YNpqS6GY1twPGHlSlSUGDlLU65FEijP7sEKFIfYGLW61MaVA/exec?";
 
   if (coordenadasUrl.equals(",,,"))
   {
     coordenadasUrl = "NoDisponible";
   }
-
-  String parametros = "velocidadInstantanea=" + String(velocidadIntantanea) + "&velocidadMedia=" + String(velocidadMedia) + "&tiempoCarrera=" + tiempoCarrera + "&numVueltas=" + numVueltas + "&coordenadas=" + coordenadasUrl;
+  
+  String parametros = "vueltasRueda=" + String(n) + "&tiempoInicio=" + String(t0) + "&tiempoActual=" + String(t) + "&tiempoVuelta=" + String(tiempoVuelta) + "&coordenadas=" + coordenadasUrl;
   
   if (sendData("AT+HTTPPARA=\"URL\",\"" + url + parametros + "\"", 1000, DEBUG).indexOf("OK") != -1)
   {
@@ -147,34 +142,29 @@ void loop()
 
 String sendData(String command, const int timeout, boolean debug)
 {
-    String response = "";
-    if (command.equals("1A") || command.equals("1a"))
+  String response = "";
+  if (!command.equals("1A") && !command.equals("1a"))
+  {
+    Serial1.println(command);
+  }
+
+  //long time = micros();
+  //while ((time + timeout) > micros())
+  //{
+    delay(timeout);
+    SerialUSB.println(micros());
+    while (Serial1.available())
     {
-        SerialUSB.println();
-        SerialUSB.println("Get a 1A, input a 0x1A");
- 
-        //Serial1.write(0x1A);
-        Serial1.write(26);
-        Serial1.println();
-        return "";
+      char c = Serial1.read();
+      response += c;
     }
-    else
-    {
-        Serial1.println(command);
-    }
- 
-    long int time = millis();
-    while ((time + timeout) > millis())
-    {
-        while (Serial1.available())
-        {
-            char c = Serial1.read();
-            response += c;
-        }
-    }
-    if (debug)
-    {
-        SerialUSB.print(response);
-    }
-    return response;
+    SerialUSB.println(micros());
+  //}
+
+  if (debug)
+  {
+    SerialUSB.println(response);
+  }
+  
+  return response;
 }
