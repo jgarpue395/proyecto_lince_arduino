@@ -1,0 +1,5 @@
+2023/02/20-09:08:05.029 3a10 Log #3: 3 ops saved to Table #4 OK
+2023/02/20-09:08:05.030 3a10 Archiving C:\Users\2DAM\AppData\Local\Temp\flutter_tools.abfdeb6c\flutter_tools_chrome_device.1bcad698\Default\File System\Origins/000003.log: OK
+2023/02/20-09:08:05.031 3a10 Table #4: 3 entries OK
+2023/02/20-09:08:05.032 3a10 Archiving C:\Users\2DAM\AppData\Local\Temp\flutter_tools.abfdeb6c\flutter_tools_chrome_device.1bcad698\Default\File System\Origins/MANIFEST-000001: OK
+2023/02/20-09:08:05.038 3a10 **** Repaired leveldb C:\Users\2DAM\AppData\Local\Temp\flutter_tools.abfdeb6c\flutter_tools_chrome_device.1bcad698\Default\File System\Origins; recovered 1 files; 181 bytes. Some data may have been lost. ****

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:pagina_web_proyecto_lince/Provider/info_provider.dart';
+import 'package:pagina_web_proyecto_lince/widgets/mapa.dart';
 import 'package:provider/provider.dart';
 import '../widgets/tabla.dart';
 
@@ -51,6 +52,7 @@ class _InformationScreenState extends State<InformationScreen> {
                 return Column(
                   children: [
                     Tabla(info: snapshot.data!),
+                    Mapa()
                   ],
                 );
               },
