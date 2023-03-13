@@ -1,5 +1,3 @@
-//import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:pagina_web_proyecto_lince/Provider/info_provider.dart';
 import 'package:pagina_web_proyecto_lince/widgets/mapa.dart';
@@ -47,13 +45,20 @@ class _InformationScreenState extends State<InformationScreen> {
           child: Center(
             child: FutureBuilder(
               future: infoProvider.getInfo(),
-              initialData: const ["Datos no disponibles","Datos no disponibles","Datos no disponibles","Datos no disponibles","Datos no disponibles", "Datos no disponibles"],
+              initialData: const ["Datos no disponibles","Datos no disponibles"],
               builder: (context, snapshot) {
-                return Column(
-                  children: [
-                    Tabla(info: snapshot.data!),
-                    Mapa()
-                  ],
+                return Expanded(
+                  child: ListView(
+                    children: [Column(
+                      children: [
+                        Tabla(coord: snapshot.data!),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          child: Mapa(coord: snapshot.data!),
+                        )
+                      ],
+                    )],
+                  ),
                 );
               },
             ),
