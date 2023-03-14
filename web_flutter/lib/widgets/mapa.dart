@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -10,27 +12,46 @@ class Mapa extends StatelessWidget
   @override
   Widget build(BuildContext context) 
   {
-    if (coord[0] != "Datos no disponibles")
+    final size = MediaQuery.of(context).size;
+
+    if (coord[0] != "Datos no disponibles" && coord[0] != "\"latitud\"" && coord[0] != "\"\"" && coord[1] != "\"\"")
     {
       //instancia de un objeto de tipo LatLng de la librebrería de google_maps_flutter
-      final LatLng posicion = _parsearCoordALatLng("${coord[0]},${coord[1]}");
+      final LatLng posicionCoche = _parsearCoordALatLng("${coord[0]},${coord[1]}");
 
       //coordenadas de prueba de las oficionas de Google
-      //const LatLng posicion = LatLng(37.4219983, -122.084);
+      //const LatLng posicionCircuito = LatLng(43.770981, -0.041016);
+      //const LatLng posicionInsti = LatLng(38.036184754428476, -4.042860017578543);
 
-      // inicializo la posicion inicial de la camara al punto en el que estamos y le pongo un zoom de 15
-      // CameraPosition initialCameraPosition = CameraPosition (
-      //   target: posicion,
-      //   zoom: 15
-      // );
+      //inicializo la posicion inicial de la camara al punto en el que estamos y le pongo un zoom de 15
+      CameraPosition initialCameraPosition = CameraPosition (
+        target: posicionCoche,
+        zoom: 15,
+      );
 
-      // return GoogleMap(
-      //  initialCameraPosition: initialCameraPosition
-      // );
-      return Text(posicion.toString());
+      // sizedbox para ajustar el tamaño del mapa y no tenga problemas a la hora de mostrarlo en la pantalla
+      return SizedBox(
+        width: size.width * 0.8,
+        height: size.height * 0.6,
+
+        child: GoogleMap(
+          initialCameraPosition: initialCameraPosition,
+          mapType: MapType.satellite,
+          minMaxZoomPreference: const MinMaxZoomPreference(10, 20),
+          markers: <Marker>{
+            Marker(
+              markerId: MarkerId(posicionCoche.toString()),
+              position: posicionCoche
+            )
+          }
+        ),
+      );
     }
 
-    return const Text("Cargando datos");
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: size.width * 0.1),
+      child: const CircularProgressIndicator(),
+    );
   }
 }
 
