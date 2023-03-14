@@ -38,27 +38,27 @@ class _InformationScreenState extends State<InformationScreen> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(vertical: size.width * 0.1, horizontal: size.height * 0.2),
+        padding: EdgeInsets.only(top: size.width * 0.04, left: size.height * 0.2, right: size.height * 0.2),
         child: SizedBox(
           width: size.width * 0.8,
-          height: size.height * 0.8,
+          height: size.height,
           child: Center(
             child: FutureBuilder(
               future: infoProvider.getInfo(),
               initialData: const ["Datos no disponibles","Datos no disponibles"],
               builder: (context, snapshot) {
-                return Expanded(
-                  child: ListView(
-                    children: [Column(
-                      children: [
-                        Tabla(coord: snapshot.data!),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
-                          child: Mapa(coord: snapshot.data!),
-                        )
-                      ],
-                    )],
-                  ),
+                if(snapshot.data![0] == "\"latitud\"" || snapshot.data![0] == "\"No disponible\"") {
+                  snapshot.data![0] = "Datos no disponibles";
+                  snapshot.data![1] = "Datos no disponibles";
+                }
+                return Column(
+                  children: [
+                    Tabla(coord: snapshot.data!),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 50),
+                      child: Mapa(coord: snapshot.data!),
+                    )
+                  ],
                 );
               },
             ),
