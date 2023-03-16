@@ -1,5 +1,3 @@
-import 'dart:js_util';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -13,16 +11,13 @@ class Mapa extends StatelessWidget
   Widget build(BuildContext context) 
   {
     final size = MediaQuery.of(context).size;
+    final ImageConfiguration imageConfiguration = createLocalImageConfiguration(context);
 
-    if (coord[0] != "Datos no disponibles" && coord[0] != "\"latitud\"" && coord[0] != "\"\"" && coord[1] != "\"\"")
+    if (coord[0] != "Datos no disponibles" && coord[0] != "\"latitud\"" && coord[0] != "\"\"" && coord[1] != "\"\"" && coord.length == 2)
     {
       //instancia de un objeto de tipo LatLng de la librebrería de google_maps_flutter
       final LatLng posicionCoche = _parsearCoordALatLng("${coord[0]},${coord[1]}");
-
-      //coordenadas de prueba de las oficionas de Google
-      //const LatLng posicionCircuito = LatLng(43.770981, -0.041016);
-      //const LatLng posicionInsti = LatLng(38.036184754428476, -4.042860017578543);
-
+      
       //inicializo la posicion inicial de la camara al punto en el que estamos y le pongo un zoom de 15
       CameraPosition initialCameraPosition = CameraPosition (
         target: posicionCoche,
@@ -30,21 +25,27 @@ class Mapa extends StatelessWidget
       );
 
       // sizedbox para ajustar el tamaño del mapa y no tenga problemas a la hora de mostrarlo en la pantalla
-      return SizedBox(
-        width: size.width * 0.8,
-        height: size.height * 0.6,
-
-        child: GoogleMap(
-          initialCameraPosition: initialCameraPosition,
-          mapType: MapType.satellite,
-          minMaxZoomPreference: const MinMaxZoomPreference(10, 20),
-          markers: <Marker>{
-            Marker(
-              markerId: MarkerId(posicionCoche.toString()),
-              position: posicionCoche
-            )
-          }
-        ),
+      return FutureBuilder(
+        future: BitmapDescriptor.fromAssetImage(imageConfiguration, "marker_lince.png"),
+        //initialData: BitmapDescriptor.defaultMarker,
+        builder:(context, snapshot) {
+          return SizedBox(
+            width: size.width * 0.8,
+            height: size.height * 0.6,
+            child: GoogleMap(
+              initialCameraPosition: initialCameraPosition,
+              mapType: MapType.satellite,
+              minMaxZoomPreference: const MinMaxZoomPreference(10, 20),
+              markers: snapshot.data != null ? <Marker>{
+                Marker(
+                  markerId: MarkerId(posicionCoche.toString()),
+                  icon: snapshot.data!,
+                  position: posicionCoche
+                )
+              } : <Marker>{}
+            ),
+          );
+        }
       );
     }
 
@@ -84,7 +85,7 @@ double _convertirCoordenadasDeStringADouble(String coord) {
 
   partes = partes[1].split("'");
   double minutos = double.parse(partes[0]);
-  
+
   // convierte la coordenada a decimal
   double decimal = grados + (minutos / 60);
 
@@ -97,3 +98,4 @@ double _convertirCoordenadasDeStringADouble(String coord) {
 
   return decimal;
 }
+

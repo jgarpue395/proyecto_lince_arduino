@@ -39,8 +39,20 @@
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
 
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVSKShkzcwDmKMdKRrv4SCyPQYtiAdqDc"></script>
-
+  <script>
+    var url = "https://script.google.com/macros/s/AKfycbwg5kGYg55xQemJSGto7VYxBnauKY50JQ911QnDbj2RUFL3Kie2EuS4d66h3Jw_V7q0Bw/exec";
+  
+    // Hacer la petición GET
+    fetch(url)
+      .then(response => response.json()) // Convertir la respuesta a JSON
+      .then(data => {
+        // Cuando se recibe la respuesta, cargar el script de Google Maps
+        var script = document.createElement("script");
+        script.src = "https://maps.googleapis.com/maps/api/js?key=" + data;
+        document.body.appendChild(script);
+      })
+      .catch(error => console.error(error));
+  </script>
 </head>
 <body>
   <script>
