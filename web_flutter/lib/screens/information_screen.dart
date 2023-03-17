@@ -51,14 +51,16 @@ class _InformationScreenState extends State<InformationScreen> {
                   snapshot.data![0] = "Datos no disponibles";
                   snapshot.data![1] = "Datos no disponibles";
                 }
-                return Column(
-                  children: [
-                    Tabla(coord: snapshot.data!),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 50),
-                      child: Mapa(coord: snapshot.data!),
-                    )
-                  ],
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Tabla(coord: snapshot.data!),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 50),
+                        child: Mapa(coord: snapshot.data!),
+                      )
+                    ],
+                  ),
                 );
               },
             ),

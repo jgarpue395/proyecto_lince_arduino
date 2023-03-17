@@ -26,7 +26,7 @@ class Mapa extends StatelessWidget
 
       // sizedbox para ajustar el tamaño del mapa y no tenga problemas a la hora de mostrarlo en la pantalla
       return FutureBuilder(
-        future: BitmapDescriptor.fromAssetImage(imageConfiguration, "marker_lince.png"),
+        future: BitmapDescriptor.fromAssetImage(imageConfiguration, "assets/marker_lince.png"),
         //initialData: BitmapDescriptor.defaultMarker,
         builder:(context, snapshot) {
           return SizedBox(
