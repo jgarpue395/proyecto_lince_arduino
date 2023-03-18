@@ -18,12 +18,12 @@ function setDataInSheet(coordenadas)
   {
     var coords = parseCoordenadas(coordenadas);
     // introduce la linea con los nuevos datos en el excel
-    sheet.appendRow([coords.latitud, coords.longitud]);
+    sheet.appendRow([coords.latitud, coords.longitud, new Date()]);
   }
   else 
   {
     // introduce la linea con los nuevos datos en el excel
-    sheet.appendRow(["No disponible", "No disponible"]);
+    sheet.appendRow(["No disponible", "No disponible", new Date()]);
   }
 }
 
@@ -52,4 +52,4 @@ function parseCoordenadas(coordenadas) {
   };
 }
 
-//https://script.google.com/macros/s/AKfycbysWPvnz0xrYgkP1qtjMoAkdoDnO2-OriOqsrknlEYJO990RBwKU-50JpvfKlDS0FqJWw/exec?
+// https://script.google.com/macros/s/AKfycbxH7ItdY1Oa0aL7vhBAR2a1aMpBmItAOdOOXz9mpjSm_3UX2yRFOrPSOItHGpfzzH_iGA/exec

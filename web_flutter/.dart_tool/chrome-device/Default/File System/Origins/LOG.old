@@ -1,6 +1,14 @@
-2023/03/17-09:34:57.326 303c Reusing MANIFEST C:\Users\2DAM\AppData\Local\Temp\flutter_tools.c1bdba3f\flutter_tools_chrome_device.43bf6a9b\Default\File System\Origins/MANIFEST-000001
-2023/03/17-09:34:57.326 303c Recovering log #6
-2023/03/17-09:34:57.327 303c Reusing old log C:\Users\2DAM\AppData\Local\Temp\flutter_tools.c1bdba3f\flutter_tools_chrome_device.43bf6a9b\Default\File System\Origins/000006.log 
-2023/03/17-09:34:57.327 303c Delete type=0 #3
-2023/03/17-09:34:57.327 303c Delete type=2 #4
-2023/03/17-09:34:57.327 303c Delete type=2 #6
+2023/03/18-16:55:19.373 498 Reusing MANIFEST C:\Users\jesus\AppData\Local\Temp\flutter_tools.f1a68853\flutter_tools_chrome_device.76eb6c56\Default\File System\Origins/MANIFEST-000001
+2023/03/18-16:55:19.373 498 Recovering log #3
+2023/03/18-16:55:19.374 498 Level-0 table #15: started
+2023/03/18-16:55:19.621 498 Level-0 table #15: 181 bytes OK
+2023/03/18-16:55:19.622 498 Recovering log #6
+2023/03/18-16:55:19.622 498 Level-0 table #16: started
+2023/03/18-16:55:20.138 498 Level-0 table #16: 143 bytes OK
+2023/03/18-16:55:20.138 498 Recovering log #12
+2023/03/18-16:55:20.139 498 Reusing old log C:\Users\jesus\AppData\Local\Temp\flutter_tools.f1a68853\flutter_tools_chrome_device.76eb6c56\Default\File System\Origins/000012.log 
+2023/03/18-16:55:20.525 498 Delete type=0 #3
+2023/03/18-16:55:22.458 498 Delete type=2 #4
+2023/03/18-16:55:22.458 498 Delete type=2 #6
+2023/03/18-16:55:22.458 498 Delete type=0 #6
+2023/03/18-16:55:22.458 498 Delete type=2 #8
