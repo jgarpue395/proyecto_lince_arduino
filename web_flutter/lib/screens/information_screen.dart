@@ -62,29 +62,25 @@ class _InformationScreenState extends State<InformationScreen> {
                         child: Mapa(coord: snapshot.data!),
                       ),
 
-                      Column(
+                      Row(
+                        // mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Row(
-                            // mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              const Text("Realizado por: "),
-                              
-                              GestureDetector(
-                                onTap: () => _launchURL("https://www.linkedin.com/in/jesus-garcia-puerto-57526825b/"),
-                                child: Text("Jesús García Puerto", style: TextStyle(color: Colors.blue[900]))
-                              ),
-                            ],
+                          const Text("Realizado por: "),
+                          
+                          GestureDetector(
+                            onTap: () => _launchURL("https://www.linkedin.com/in/jesus-garcia-puerto-57526825b/"),
+                            child: Text("Jesús García Puerto", style: TextStyle(color: Colors.blue[900]))
                           ),
+                        ],
+                      ),
 
-                          Row(
-                            // mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              const Text("Dirigido por: "),
-                              GestureDetector(
-                                onTap: () => _launchURL("https://www.linkedin.com/in/franciscobenitezchico/"),
-                                child: Text("Francisco Manuel Benitez Chico", style: TextStyle(color: Colors.blue[900]))
-                              ),
-                            ],
+                      Row(
+                        // mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          const Text("Dirigido por: "),
+                          GestureDetector(
+                            onTap: () => _launchURL("https://www.linkedin.com/in/franciscobenitezchico/"),
+                            child: Text("Francisco Manuel Benitez Chico", style: TextStyle(color: Colors.blue[900]))
                           ),
                         ],
                       )
@@ -111,7 +107,7 @@ class _InformationScreenState extends State<InformationScreen> {
     });
   }
 
-  // obtiene le un string, lo paso a url, comprueba si se puede lanzar la url y en caso de que se pueda lo abre
+  // obtiene un string, lo paso a url, comprueba si se puede lanzar la url y en caso de que se pueda lo abre
   void _launchURL(String urlString) async 
   {
     final url = Uri.parse(urlString);
