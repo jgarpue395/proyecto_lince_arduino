@@ -34,7 +34,7 @@ void setup()
 
   pinMode(HALLPin, INPUT);   //declara entrada SENSOR HALL
 
-  // Sin llegada de 5V
+  // Sin llegada de 3.3V
   while (digitalRead(HALLPin) == LOW) {
     ;
   }
@@ -50,7 +50,7 @@ void setup()
  
 void loop()
 {
-  // Sin llegada de 5V
+  // Sin llegada de 3.3V
   while (digitalRead(HALLPin) == LOW) {
     ;
   }

@@ -24,7 +24,7 @@ class _InformationScreenState extends State<InformationScreen> {
           child: SizedBox(
             height: 100,
             child: Padding(
-              padding: const EdgeInsets.only(top: 20.0, bottom: 20),
+              padding: const EdgeInsets.only(top: 20, bottom: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
@@ -39,7 +39,7 @@ class _InformationScreenState extends State<InformationScreen> {
         ),
       ),
       body: Padding (
-        padding: EdgeInsets.only(top: size.width * 0.04, left: size.height * 0.2, right: size.height * 0.2),
+        padding: EdgeInsets.only(top: size.width * 0.03, left: size.height * 0.2, right: size.height * 0.2),
         child: SizedBox(
           width: size.width * 0.8,
           height: size.height,
@@ -69,7 +69,11 @@ class _InformationScreenState extends State<InformationScreen> {
                           
                           GestureDetector(
                             onTap: () => _launchURL("https://www.linkedin.com/in/jesus-garcia-puerto-57526825b/"),
-                            child: Text("Jesús García Puerto", style: TextStyle(color: Colors.blue[900]))
+                            child: MouseRegion (
+                              cursor: SystemMouseCursors.click,
+                              child: Text("Jesús García Puerto", style: TextStyle(color: Colors.blue[900])
+                              )
+                            )
                           ),
                         ],
                       ),
@@ -80,7 +84,11 @@ class _InformationScreenState extends State<InformationScreen> {
                           const Text("Dirigido por: "),
                           GestureDetector(
                             onTap: () => _launchURL("https://www.linkedin.com/in/franciscobenitezchico/"),
-                            child: Text("Francisco Manuel Benitez Chico", style: TextStyle(color: Colors.blue[900]))
+                            child: MouseRegion (
+                              cursor: SystemMouseCursors.click,
+                              child: Text("Francisco Manuel Benitez Chico", style: TextStyle(color: Colors.blue[900])
+                              )
+                            )
                           ),
                         ],
                       )

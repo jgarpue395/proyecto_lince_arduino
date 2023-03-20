@@ -13,7 +13,7 @@ class Mapa extends StatelessWidget
     final size = MediaQuery.of(context).size;
     final ImageConfiguration imageConfiguration = createLocalImageConfiguration(context);
 
-    if (coord[0] != "Datos no disponibles" && coord[0] != "\"latitud\"" && coord[0] != "\"\"" && coord[1] != "\"\"" && coord.length == 2)
+    if (coord[0] != "Datos no disponibles" && coord[0] != "\"latitud\"" && coord[0] != "\"\"" && coord[1] != "\"\"")
     {
       //instancia de un objeto de tipo LatLng de la librebrería de google_maps_flutter
       final LatLng posicionCoche = _parsearCoordALatLng("${coord[0]},${coord[1]}");
