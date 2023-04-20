@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map/plugin_api.dart';
+import 'package:latlong2/latlong.dart' show LatLng;
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 
 class Mapa extends StatelessWidget 
 {
@@ -11,41 +15,54 @@ class Mapa extends StatelessWidget
   Widget build(BuildContext context) 
   {
     final size = MediaQuery.of(context).size;
-    final ImageConfiguration imageConfiguration = createLocalImageConfiguration(context);
 
     if (coord[0] != "Datos no disponibles" && coord[0] != "\"latitud\"" && coord[0] != "\"\"" && coord[1] != "\"\"")
     {
       //instancia de un objeto de tipo LatLng de la librebrería de google_maps_flutter
-      final LatLng posicionCoche = _parsearCoordALatLng("${coord[0]},${coord[1]}");
-      
-      //inicializo la posicion inicial de la camara al punto en el que estamos y le pongo un zoom de 15
-      CameraPosition initialCameraPosition = CameraPosition (
-        target: posicionCoche,
-        zoom: 15,
-      );
+      final  posicionCoche = _parsearCoordALatLng("${coord[0]},${coord[1]}");
 
-      // sizedbox para ajustar el tamaño del mapa y no tenga problemas a la hora de mostrarlo en la pantalla
-      return FutureBuilder(
-        future: BitmapDescriptor.fromAssetImage(imageConfiguration, "assets/marker_lince.png"),
-        //initialData: BitmapDescriptor.defaultMarker,
-        builder:(context, snapshot) {
-          return SizedBox(
-            width: size.width * 0.8,
-            height: size.height * 0.6,
-            child: GoogleMap(
-              initialCameraPosition: initialCameraPosition,
-              mapType: MapType.satellite,
-              minMaxZoomPreference: const MinMaxZoomPreference(10, 20),
-              markers: snapshot.data != null ? <Marker>{
-                Marker(
-                  markerId: MarkerId(posicionCoche.toString()),
-                  icon: snapshot.data!,
-                  position: posicionCoche
-                )
-              } : <Marker>{}
+      // SizedBox para que el mapa no se desborde
+      return SizedBox(
+        width: size.width * 0.8,
+        height: size.height * 0.6,
+        // Objeto del mapa de la librería flutter_map
+        child: FlutterMap(
+          // Configuro la posicion inicial y el zoom
+          options: MapOptions(
+            center: posicionCoche,
+            minZoom: 15,
+            zoom: 18,
+            maxZoom: 18.49,
+          ),
+          nonRotatedChildren: [
+            AttributionWidget.defaultWidget(
+              source: 'OpenStreetMap contributors',
+              onSourceTapped: null,
             ),
-          );
-        }
+          ],
+          children: [
+            // Cargo la imagen del mapa, usando la url indicada, con subdominios para aumentar la velocidad de carga, y utilizo un paquete para controlar el trafico de la aplicacion 
+            TileLayer(
+              // urlTemplate: 'https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
+              urlTemplate: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+              subdomains: const ['mt0', 'mt1', 'mt2', 'mt3'],
+              userAgentPackageName: 'es.jgp.proyecto_integrado_telemetria_lince',
+            ),
+
+            // Lista de Markers
+            MarkerLayer(
+              markers: [
+                // Configuro un Marker en la posición del coche con la imagen customizada
+                Marker(
+                  point: posicionCoche,
+                  width: 80,
+                  height: 80,
+                  builder: (context) => Image.asset('assets/marker_lince.png')
+                ),
+              ],
+            ),
+          ],
+        )
       );
     }
 
