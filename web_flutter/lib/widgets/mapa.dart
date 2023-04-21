@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong2/latlong.dart' show LatLng;
+import 'package:pagina_web_proyecto_lince/Provider/info_provider.dart';
+import 'package:provider/provider.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
@@ -15,6 +17,7 @@ class Mapa extends StatelessWidget
   Widget build(BuildContext context) 
   {
     final size = MediaQuery.of(context).size;
+    final infoProvider = Provider.of<InfoProvider>(context, listen: false);
 
     if (coord[0] != "Datos no disponibles" && coord[0] != "\"latitud\"" && coord[0] != "\"\"" && coord[1] != "\"\"")
     {
@@ -36,17 +39,21 @@ class Mapa extends StatelessWidget
           ),
           nonRotatedChildren: [
             AttributionWidget.defaultWidget(
-              source: 'OpenStreetMap contributors',
+              source: 'Lince Geolocation',
               onSourceTapped: null,
             ),
           ],
           children: [
             // Cargo la imagen del mapa, usando la url indicada, con subdominios para aumentar la velocidad de carga, y utilizo un paquete para controlar el trafico de la aplicacion 
-            TileLayer(
-              // urlTemplate: 'https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
-              urlTemplate: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-              subdomains: const ['mt0', 'mt1', 'mt2', 'mt3'],
-              userAgentPackageName: 'es.jgp.proyecto_integrado_telemetria_lince',
+            FutureBuilder(
+              future: infoProvider.getURLTemplate(),
+              builder: (context, snapshot) {
+                return TileLayer(
+                  urlTemplate: snapshot.data ?? "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                  subdomains: const ['mt0', 'mt1', 'mt2', 'mt3'],
+                  userAgentPackageName: 'es.jgp.proyecto_integrado_telemetria_lince',
+                ); 
+              }
             ),
 
             // Lista de Markers
@@ -70,7 +77,7 @@ class Mapa extends StatelessWidget
       padding: EdgeInsets.symmetric(vertical: size.width * 0.1),
       child: const CircularProgressIndicator(),
     );
-  }
+  } 
 }
 
 // pasa las coordenadas de string a decimal e instancia un objeto LatLng
